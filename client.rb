@@ -18,4 +18,13 @@ class Client
   def respond_to?(meth, include_private = false)
     @client.respond_to?(meth, include_private) || super
   end
+
+  def workspace(name)
+    workspaces.find_all.find { |workspace| workspace.name == name }
+  end
+
+  def project(name, workspace = nil)
+    workspace ||= workspaces.find_all.first
+    projects.find_all(workspace: workspace.id).find { |project| project.name == name }
+  end
 end
